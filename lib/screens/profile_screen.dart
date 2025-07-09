@@ -5,6 +5,21 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    final cardRadius = width * 0.05;
+    final avatarRadius = width * 0.13;
+    final iconSize = width * 0.09;
+    final nameFont = width * 0.065;
+    final emailFont = width * 0.04;
+    final statFont = width * 0.05;
+    final labelFont = width * 0.035;
+    final buttonFont = width * 0.045;
+    final buttonPadding = EdgeInsets.symmetric(
+      horizontal: width * 0.08,
+      vertical: height * 0.018,
+    );
+
     // Placeholder user data
     final String name = 'IELTS Learner';
     final String email = 'user@email.com';
@@ -19,137 +34,149 @@ class ProfileScreen extends StatelessWidget {
           colors: [Color(0xFFB2FF59), Color(0xFF69F0AE), Color(0xFF40C4FF)],
         ),
       ),
-      child: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 48,
-                  backgroundColor: Colors.deepPurple.shade100,
-                  child: const Icon(
-                    Icons.person,
-                    size: 60,
-                    color: Colors.deepPurple,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  name,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF00695C),
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  email,
-                  style: const TextStyle(fontSize: 16, color: Colors.black54),
-                ),
-                const SizedBox(height: 12),
-                ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.lightGreen.shade700,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Padding(
+                padding: EdgeInsets.all(width * 0.06),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: avatarRadius,
+                      backgroundColor: Colors.deepPurple.shade100,
+                      child: Icon(
+                        Icons.person,
+                        size: iconSize * 1.2,
+                        color: Colors.deepPurple,
+                      ),
                     ),
-                  ),
-                  icon: const Icon(Icons.edit),
-                  label: const Text('Edit Profile'),
-                  onPressed: () {},
-                ),
-                const SizedBox(height: 32),
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  color: Colors.yellow.shade100,
-                  elevation: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 20.0,
-                      horizontal: 32.0,
+                    SizedBox(height: height * 0.02),
+                    Text(
+                      name,
+                      style: TextStyle(
+                        fontSize: nameFont,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFF00695C),
+                      ),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
+                    SizedBox(height: height * 0.005),
+                    Text(
+                      email,
+                      style: TextStyle(
+                        fontSize: emailFont,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    SizedBox(height: height * 0.015),
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.lightGreen.shade700,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(cardRadius),
+                        ),
+                        textStyle: TextStyle(fontSize: buttonFont),
+                        padding: buttonPadding,
+                      ),
+                      icon: Icon(Icons.edit, size: iconSize * 0.7),
+                      label: const Text('Edit Profile'),
+                      onPressed: () {},
+                    ),
+                    SizedBox(height: height * 0.04),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(cardRadius),
+                      ),
+                      color: Colors.yellow.shade100,
+                      elevation: 2,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: height * 0.03,
+                          horizontal: width * 0.08,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Icon(
-                              Icons.local_fire_department,
-                              color: Colors.orange,
-                              size: 32,
+                            Column(
+                              children: [
+                                Icon(
+                                  Icons.local_fire_department,
+                                  color: Colors.orange,
+                                  size: iconSize,
+                                ),
+                                SizedBox(height: height * 0.01),
+                                Text(
+                                  '$streak',
+                                  style: TextStyle(
+                                    fontSize: statFont,
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xFFBF360C),
+                                  ),
+                                ),
+                                Text(
+                                  'Streak',
+                                  style: TextStyle(
+                                    fontSize: labelFont,
+                                    color: const Color(0xFFBF360C),
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 6),
-                            Text(
-                              '$streak',
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFFBF360C),
-                              ),
-                            ),
-                            const Text(
-                              'Streak',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFFBF360C),
-                              ),
+                            Column(
+                              children: [
+                                Icon(
+                                  Icons.check_circle,
+                                  color: Colors.green,
+                                  size: iconSize,
+                                ),
+                                SizedBox(height: height * 0.01),
+                                Text(
+                                  '$tasksCompleted',
+                                  style: TextStyle(
+                                    fontSize: statFont,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                                Text(
+                                  'Tasks',
+                                  style: TextStyle(
+                                    fontSize: labelFont,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                        Column(
-                          children: [
-                            Icon(
-                              Icons.check_circle,
-                              color: Colors.green,
-                              size: 32,
-                            ),
-                            const SizedBox(height: 6),
-                            Text(
-                              '$tasksCompleted',
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.green,
-                              ),
-                            ),
-                            const Text(
-                              'Tasks',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.green,
-                              ),
-                            ),
-                          ],
+                      ),
+                    ),
+                    SizedBox(height: height * 0.04),
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red.shade400,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(cardRadius),
                         ),
-                      ],
+                        textStyle: TextStyle(fontSize: buttonFont),
+                        padding: buttonPadding,
+                      ),
+                      icon: Icon(Icons.logout, size: iconSize * 0.7),
+                      label: const Text('Logout'),
+                      onPressed: () {
+                        // TODO: Implement logout
+                      },
                     ),
-                  ),
+                  ],
                 ),
-                const SizedBox(height: 32),
-                ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red.shade400,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                  ),
-                  icon: const Icon(Icons.logout),
-                  label: const Text('Logout'),
-                  onPressed: () {
-                    // TODO: Implement logout
-                  },
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

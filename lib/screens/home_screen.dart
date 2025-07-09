@@ -21,7 +21,21 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Widget _buildHomeContent() {
+  Widget _buildHomeContent(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    final padding = width * 0.06;
+    final cardRadius = width * 0.05;
+    final iconSize = width * 0.08;
+    final streakFont = width * 0.045;
+    final titleFont = width * 0.07;
+    final tipFont = width * 0.045;
+    final buttonFont = width * 0.055;
+    final buttonPadding = EdgeInsets.symmetric(
+      horizontal: width * 0.12,
+      vertical: height * 0.025,
+    );
+
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -30,208 +44,216 @@ class _HomeScreenState extends State<HomeScreen> {
           colors: [Color(0xFFB2FF59), Color(0xFF69F0AE), Color(0xFF40C4FF)],
         ),
       ),
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.waving_hand,
-                            color: Colors.amber,
-                            size: 32,
-                          ),
-                          const SizedBox(width: 8),
-                          const Text(
-                            'Hello!',
-                            style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF00695C),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.orange.shade100,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 4,
-                        ),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.local_fire_department,
-                              color: Colors.orange,
-                              size: 22,
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              '$_streak day streak',
-                              style: const TextStyle(
-                                fontSize: 15,
-                                color: Color(0xFFBF360C),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  CircleAvatar(
-                    radius: 24,
-                    backgroundColor: Colors.deepPurple.shade100,
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.account_circle,
-                        size: 32,
-                        color: Colors.deepPurple,
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 32),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                color: Colors.yellow.shade100,
-                elevation: 3,
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.yellow.shade300,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        padding: const EdgeInsets.all(12),
-                        child: const Icon(
-                          Icons.emoji_events,
-                          color: Colors.white,
-                          size: 32,
-                        ),
-                      ),
-                      const SizedBox(width: 18),
-                      Expanded(
-                        child: Column(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Padding(
+                padding: EdgeInsets.all(padding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Daily Goal',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF795548),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.waving_hand,
+                                  color: Colors.amber,
+                                  size: iconSize,
+                                ),
+                                SizedBox(width: width * 0.02),
+                                Text(
+                                  'Hello!',
+                                  style: TextStyle(
+                                    fontSize: titleFont,
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xFF00695C),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: height * 0.005),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.orange.shade100,
+                                borderRadius: BorderRadius.circular(
+                                  cardRadius * 0.6,
+                                ),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: width * 0.025,
+                                vertical: height * 0.005,
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.local_fire_department,
+                                    color: Colors.orange,
+                                    size: iconSize * 0.7,
+                                  ),
+                                  SizedBox(width: width * 0.01),
+                                  Text(
+                                    '$_streak day streak',
+                                    style: TextStyle(
+                                      fontSize: streakFont,
+                                      color: const Color(0xFFBF360C),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            const SizedBox(height: 12),
-                            LinearProgressIndicator(
-                              value: _dailyGoalProgress,
-                              minHeight: 10,
-                              backgroundColor: Colors.yellow.shade200,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                Color(0xFFFFA000),
+                          ],
+                        ),
+                        CircleAvatar(
+                          radius: width * 0.07,
+                          backgroundColor: Colors.deepPurple.shade100,
+                          child: Icon(
+                            Icons.account_circle,
+                            size: iconSize,
+                            color: Colors.deepPurple,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: height * 0.04),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(cardRadius),
+                      ),
+                      color: Colors.yellow.shade100,
+                      elevation: 3,
+                      child: Padding(
+                        padding: EdgeInsets.all(width * 0.05),
+                        child: Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.yellow.shade300,
+                                borderRadius: BorderRadius.circular(
+                                  cardRadius * 0.8,
+                                ),
+                              ),
+                              padding: EdgeInsets.all(width * 0.03),
+                              child: Icon(
+                                Icons.emoji_events,
+                                color: Colors.white,
+                                size: iconSize,
                               ),
                             ),
-                            const SizedBox(height: 8),
-                            Text(
-                              '${(_dailyGoalProgress * 100).toInt()}% completed',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF795548),
+                            SizedBox(width: width * 0.04),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Daily Goal',
+                                    style: TextStyle(
+                                      fontSize: streakFont,
+                                      fontWeight: FontWeight.bold,
+                                      color: const Color(0xFF795548),
+                                    ),
+                                  ),
+                                  SizedBox(height: height * 0.01),
+                                  LinearProgressIndicator(
+                                    value: _dailyGoalProgress,
+                                    minHeight: height * 0.012,
+                                    backgroundColor: Colors.yellow.shade200,
+                                    valueColor:
+                                        const AlwaysStoppedAnimation<Color>(
+                                          Color(0xFFFFA000),
+                                        ),
+                                  ),
+                                  SizedBox(height: height * 0.01),
+                                  Text(
+                                    '${(_dailyGoalProgress * 100).toInt()}% completed',
+                                    style: TextStyle(
+                                      fontSize: width * 0.035,
+                                      color: const Color(0xFF795548),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 32),
-              Center(
-                child: ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.lightGreen.shade700,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 40,
-                      vertical: 20,
                     ),
-                    textStyle: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(32),
-                    ),
-                    elevation: 4,
-                  ),
-                  icon: const Icon(Icons.play_arrow, size: 28),
-                  label: const Text('Start Practice'),
-                  onPressed: () {
-                    setState(() {
-                      _selectedIndex = 1; // Switch to Practice tab
-                    });
-                  },
-                ),
-              ),
-              const SizedBox(height: 32),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                color: Colors.cyan.shade50,
-                elevation: 2,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.cyan.shade200,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: const EdgeInsets.all(8),
-                        child: const Icon(
-                          Icons.lightbulb,
-                          color: Colors.white,
-                          size: 24,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      const Expanded(
-                        child: Text(
-                          'Tip: Practice a little every day to improve your IELTS score!',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Color(0xFF006064),
+                    SizedBox(height: height * 0.04),
+                    Center(
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.lightGreen.shade700,
+                          foregroundColor: Colors.white,
+                          padding: buttonPadding,
+                          textStyle: TextStyle(
+                            fontSize: buttonFont,
+                            fontWeight: FontWeight.bold,
                           ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(cardRadius),
+                          ),
+                          elevation: 4,
+                        ),
+                        icon: Icon(Icons.play_arrow, size: iconSize),
+                        label: const Text('Start Practice'),
+                        onPressed: () {
+                          setState(() {
+                            _selectedIndex = 1; // Switch to Practice tab
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(height: height * 0.04),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(cardRadius),
+                      ),
+                      color: Colors.cyan.shade50,
+                      elevation: 2,
+                      child: Padding(
+                        padding: EdgeInsets.all(width * 0.04),
+                        child: Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.cyan.shade200,
+                                borderRadius: BorderRadius.circular(
+                                  cardRadius * 0.6,
+                                ),
+                              ),
+                              padding: EdgeInsets.all(width * 0.02),
+                              child: Icon(
+                                Icons.lightbulb,
+                                color: Colors.white,
+                                size: iconSize * 0.7,
+                              ),
+                            ),
+                            SizedBox(width: width * 0.03),
+                            Expanded(
+                              child: Text(
+                                'Tip: Practice a little every day to improve your IELTS score!',
+                                style: TextStyle(
+                                  fontSize: tipFont,
+                                  color: const Color(0xFF006064),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -241,7 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: _selectedIndex == 0
-          ? _buildHomeContent()
+          ? _buildHomeContent(context)
           : _selectedIndex == 1
           ? const PracticeScreen()
           : _selectedIndex == 2
